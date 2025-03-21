@@ -1,8 +1,10 @@
-name: SonarCloud workflow
+name: Build
 on:
   push:
     branches:
       - main
+  pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
   sonarqube:
     name: SonarQube
@@ -12,6 +14,9 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v4
+        uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          # Add the following lines
+          SONAR_PROJECT_KEY: PAOPAKEM_CodeSmell    # Replace with your actual project key
+          SONAR_ORGANIZATION: paopakem-1  # Replace with your actual organization key
